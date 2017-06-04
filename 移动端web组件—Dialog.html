@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>移动端web组件—Dialog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-status-bar-style"content="black"/>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/style.css">
+<style>
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-size: 12px;
+    padding: 20px ;
+}
+button{
+    display: block;
+    width: 100%;
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: 10px;
+    background: green;
+    color: whitesmoke;
+    border: 1px solid #eee;
+    outline: none;
+}
+</style>
+</head>
+<body>
+<button id="btn1">没有传递任何参数(需手动关闭)</button>
+<button id="btn2">弹出一个不带按钮且有警告的框，2秒后自动关闭</button>
+<button id="btn3">弹出具有确认和取消按钮的框，点击按钮直接关闭</button>
+<button id="btn4">弹出具有确认按钮的警告框，点击按钮不关闭需要手动</button>
+<button id="btn5">弹出一个多组合的框，可定制</button>
+<button id="btn6">弹出一个确认和删除的框，点击确认弹出框2秒自动关闭，点击删除把上次框关闭</button>
+<button id="btn7">动画弹出自定宽高</button>
+</body>
+<script src="js/Zepto.js"></script>
+<script src="js/main.js"></script>
+<script>
+    $("#btn1").tap(function () {
+        var d=$.dialog()
+    });
+    $("#btn2").tap(function () {
+        var d=$.dialog({
+            message:"这是一个警告框",
+            delay:"2000",
+            maskOpacity:"0.7",
+            sp:"icon-blocked"
+        })
+    });
+    $("#btn3").tap(function () {
+        var d=$.dialog({
+            message:"这是一个对话框",
+            maskOpacity:"0.7",
+            sp:"icon-blocked",
+            buttons:[{
+                type:"red" ,
+                text:"删除",
+            },
+            {
+                type:"green" ,
+                text:"确认",
+            }]
+        })
+    });
+    $("#btn4").tap(function () {
+        var d=$.dialog({
+            message:"这是需要手动关闭对话框",
+            maskOpacity:"0.7",
+            delay:"40000",
+            sp:"icon-checkmark",
+            buttons:[{
+                type:"green" ,
+                text:"确认",
+                callback:function () {
+                    alert("这是一个需要手动关闭的对话框")
+                    return false;
+                }
+            }]
+        })
+    });
+    $("#btn5").tap(function () {
+        var d=$.dialog({
+            message:"这是多组合按钮对话框",
+            maskOpacity:"0.7",
+            sp:"icon-blocked",
+            delay:"50000",
+            buttons:[{
+                type:"red" ,
+            },
+                {
+                    type:"green" ,
+                },
+            {
+                }
+        ]
+        })
+    });
+    $("#btn6").tap(function () {
+        var d=$.dialog({
+            message:"这是确认和删除框",
+            maskOpacity:"0.7",
+            sp:"icon-blocked",
+            buttons:[{
+                type:"red" ,
+                text:"删除",
+                callback:function () {
+                    d.close();
+                    return false
+                }
+            },
+                {
+                    type:"green" ,
+                    text:"确认",
+                    callback:function () {
+                        $.dialog({
+                            sp:"icon-spinner2",
+                            delay:"2000"
+                        })
+                        return false
+                    }
+                }
+            ]
+        })
+    });
+    $("#btn7").tap(function () {
+        var d=$.dialog({
+            width:200,
+            height:200,
+            message:"这是一个对话框",
+            maskOpacity:"0.7",
+            sp:"icon-blocked",
+            effect:"true",
+            buttons:[{
+                type:"red" ,
+                text:"删除",
+            },
+                {
+                    type:"green" ,
+                    text:"确认",
+                }]
+        })
+    });
+</script>
+</html>
